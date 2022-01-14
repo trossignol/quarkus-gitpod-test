@@ -1,7 +1,7 @@
 
 tasks:
-- init: ./mvnw clean compile
-  command: ./mvnw quarkus:dev
+- init: mvn clean compile
+  command: mvn quarkus:dev
 
 # exposed ports
 ports:
