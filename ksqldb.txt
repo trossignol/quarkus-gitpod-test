@@ -1,3 +1,5 @@
+docker exec -it ksqldb-cli ksql http://ksqldb-server:8088
+
 CREATE STREAM products (id BIGINT KEY, name VARCHAR)
   WITH (KAFKA_TOPIC = 'products',
         VALUE_FORMAT = 'JSON',

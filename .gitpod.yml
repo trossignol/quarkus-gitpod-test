@@ -1,6 +1,6 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - init: docker-compose pull # runs during prebuild
+  - init: docker-compose up # runs during prebuild
     command: echo 'start script'
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
