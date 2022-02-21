@@ -1,0 +1,25 @@
+CREATE STREAM products (id BIGINT KEY, name VARCHAR)
+  WITH (KAFKA_TOPIC = 'products',
+        VALUE_FORMAT = 'JSON',
+        PARTITIONS = 1);
+
+
+CREATE STREAM prices (productId BIGINT, price DOUBLE, timestamp VARCHAR)
+  WITH (KAFKA_TOPIC = 'prices',
+        VALUE_FORMAT = 'JSON',
+        TIMESTAMP = 'timestamp',
+        TIMESTAMP_FORMAT = 'yyyy-MM-dd HH:mm:ss',
+        PARTITIONS = 1);
+
+CREATE STREAM product_prices AS
+  SELECT pro.id AS productId, pro.name AS name, pri.price AS price
+  FROM prices pri INNER JOIN products pro WITHIN 1 HOURS ON pro.id = pri.productId
+  EMIT CHANGES;
+
+CREATE TABLE t_product_prices AS
+  SELECT productId, LATEST_BY_OFFSET(name) AS name, LATEST_BY_OFFSET(price) AS price
+  FROM product_prices
+  GROUP BY productId
+  EMIT CHANGES;
+
+SELECT * FROM t_product_prices EMIT CHANGES;
