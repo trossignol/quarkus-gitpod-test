@@ -1,6 +1,18 @@
 version: '2'
 
 services:
+  postgres:
+    image: postgres:14
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password
+  pg-adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8090:8080
+  
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.0
     hostname: zookeeper
