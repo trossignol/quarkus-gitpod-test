@@ -25,3 +25,8 @@ CREATE TABLE t_product_prices AS
   EMIT CHANGES;
 
 SELECT * FROM t_product_prices EMIT CHANGES;
+
+CREATE STREAM orders (id BIGINT, product VARCHAR, quantity INTEGER, price INTEGER)
+  WITH (KAFKA_TOPIC = 'orders',
+        VALUE_FORMAT = 'JSON',
+        PARTITIONS = 1);

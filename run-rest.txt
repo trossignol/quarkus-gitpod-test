@@ -2,3 +2,10 @@ JAVA_TOOL_OPTIONS=-Xmx8m ; java -jar quarkus-rest/target/quarkus-app/quarkus-run
 quarkus-rest/target/rest-json-quickstart-1.0.0-SNAPSHOT-runner
 
 JAVA_TOOL_OPTIONS=-Xmx10m ; java -jar spring-boot-rest/target/rest-service-initial-0.0.1-SNAPSHOT.jar 
+
+
+
+curl -X POST \
+  -H "Content-Type: application/json" \
+  --data '{ "name": "quickstart-jdbc-sync", "config": { "connector.class": "io.confluent.connect.jdbc.JdbcSyncConnector", "tasks.max": 1, "connection.url": "jdbc:mysql://postgres:5432/postgres?user=postgres&password=password", "topics": "product_prices", "insert.mode": "UPSERT", "db.timezone": "UTC", "auto.create": "true", "auto.evolve": "true", "pk.mode": "record_value", "pk.fields": "productId", "tasks.max": "1" } }' \
+  http://localhost:8083/connectors

@@ -5,8 +5,6 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -52,6 +50,17 @@ public class ValuesGenerator {
     public Multi<Record<Long, String>> products() {
         return Multi.createFrom().items(products.stream()
                 .map(s -> Record.of(s.id, "{ \"id\" : " + s.id + ", \"name\" : \"" + s.name + "\" }")));
+    }
+
+    @Outgoing("orders")
+    public Multi<Record<Long, String>> orders() {
+        return Multi.createFrom().ticks().every(Duration.ofMillis(500))
+                .onOverflow().drop()
+                .map(tick -> {
+                    final long id = (long) random.nextInt(10);
+                    LOG.infov("order: {0}", id);
+                    return Record.of(id, "{\"id\":" + id + ",\"product\":\"foo\",\"quantity\":10,\"price\":50}");
+                });
     }
 
     private static class Product {
