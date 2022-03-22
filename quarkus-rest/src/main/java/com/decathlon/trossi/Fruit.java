@@ -9,12 +9,14 @@ public class Fruit extends PanacheEntity {
 
     public String name;
     public String description;
+    public int price;
 
     public Fruit() {
     }
 
-    public Fruit(String name, String description) {
+    public Fruit(String name, String description, int price) {
         this.name = name;
         this.description = description;
+        this.price = price;
     }
 }

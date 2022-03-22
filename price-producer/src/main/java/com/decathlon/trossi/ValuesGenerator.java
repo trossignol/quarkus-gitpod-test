@@ -29,7 +29,7 @@ public class ValuesGenerator {
             new Product(1001, "Product 1", 13.0),
             new Product(1002, "Product 2", 5.3),
             new Product(1003, "Product 3", 125.2),
-            new Product(1004, "Product 4", 10.5));
+            new Product(1004, "Product 4 bis", 10.5));
 
     @Outgoing("prices")
     public Multi<Record<Long, String>> generate() {
