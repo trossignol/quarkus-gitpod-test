@@ -13,11 +13,14 @@ public class Simulation extends io.gatling.javaapi.core.Simulation {
                         .baseUrl("http://localhost:8080")
                         .acceptHeader("application/json");
 
-        ScenarioBuilder scn = scenario("Scenario Name")
+        ScenarioBuilder scn = scenario("Scenario")
                         .exec(http("request_1")
-                                        .get("/api/thomas"));
+                                        .get("/api/thomas/sync"));
 
         {
-                setUp(scn.injectOpen(rampUsersPerSec(10).to(100).during(20)).protocols(httpProtocol));
+                setUp(scn.injectOpen(
+                        rampUsersPerSec(1).to(20).during(30)
+                        //atOnceUsers(10)
+                        ).protocols(httpProtocol));
         }
 }
