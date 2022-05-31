@@ -1,10 +1,13 @@
 package org.acme.label.service;
 
+import java.time.Duration;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import io.smallrye.mutiny.Uni;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -15,9 +18,9 @@ public class Resource {
     @GET
     @Path("/{key}")
     @SneakyThrows
-    public Result get(String key) {
-        Thread.sleep(200);
-        return new Result(key, RandomStringUtils.randomAlphabetic(10));
+    public Uni<Result> get(String key) {
+        return Uni.createFrom().item(new Result(key, "label-for-key-" + key))
+                .onItem().delayIt().by(Duration.ofMillis(200));
     }
 
     @Getter

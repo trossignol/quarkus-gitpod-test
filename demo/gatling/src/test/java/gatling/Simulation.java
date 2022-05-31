@@ -15,12 +15,9 @@ public class Simulation extends io.gatling.javaapi.core.Simulation {
 
         ScenarioBuilder scn = scenario("Scenario")
                         .exec(http("request_1")
-                                        .get("/api/thomas/sync"));
+                                        .get("/api/thomas/async"));
 
         {
-                setUp(scn.injectOpen(
-                        rampUsersPerSec(1).to(20).during(30)
-                        //atOnceUsers(10)
-                        ).protocols(httpProtocol));
+                setUp(scn.injectOpen(rampUsersPerSec(1).to(30).during(30)).protocols(httpProtocol));
         }
 }
