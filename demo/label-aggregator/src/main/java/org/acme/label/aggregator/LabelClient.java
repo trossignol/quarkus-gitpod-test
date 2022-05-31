@@ -14,7 +14,7 @@ public interface LabelClient {
     
     @GET
     @Path("/{key}")
-    LabelResult get(@PathParam("key") String key);
+    LabelResult getSync(@PathParam("key") String key);
 
     @GET
     @Path("/{key}")

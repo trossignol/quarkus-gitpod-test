@@ -23,8 +23,8 @@ public class Resource {
     @Path("/{key}/sync")
     @Blocking
     public Result getSync(String key) {
-        return new Result(key, List.of(this.labelClient.get(key), this.labelClient.get(key),
-                this.labelClient.get(key)));
+        return new Result(key, List.of(this.labelClient.getSync(key), this.labelClient.getSync(key),
+                this.labelClient.getSync(key)));
     }
 
     @GET
