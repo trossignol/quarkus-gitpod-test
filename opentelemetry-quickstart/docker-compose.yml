@@ -1,5 +1,13 @@
 version: "2"
 services:
+  database:
+    image: postgres:14.1
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=quarkus_user
+      - POSTGRES_PASSWORD=quarkus_pwd
+      - POSTGRES_DB=quarkus_db
 
   # Jaeger
   jaeger-all-in-one:
