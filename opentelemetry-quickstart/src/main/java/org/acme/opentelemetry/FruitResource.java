@@ -1,6 +1,7 @@
 package org.acme.opentelemetry;
 
 import java.net.URI;
+import java.time.Duration;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,11 +38,14 @@ public class FruitResource {
     }
 
     @POST
-    public Uni<Response> init() {
-        LOG.info(" ---------> INIT <----------");
-        final Fruit fruit = new Fruit("Thomas");
+    public Uni<Fruit> create(Fruit fruit) {
         return Panache.<Fruit>withTransaction(fruit::persist)
-                .onItem().transform(inserted -> Response.created(URI.create("/fruits/" + inserted.id)).build());
+                .replaceWith(fruit)
+                .ifNoItem()
+                .after(Duration.ofMillis(1_000))
+                .fail()
+                .onFailure()
+                .transform(t -> new IllegalStateException(t));
 
     }
 }
