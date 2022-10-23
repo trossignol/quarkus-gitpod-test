@@ -2,6 +2,7 @@ package org.acme.opentelemetry;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -31,7 +32,14 @@ public class FruitResource {
     @GET
     @Path("/id/{id}")
     public Uni<Fruit> getById(@PathParam("id") long id) {
-        return Fruit.findById(id);
+        return Fruit.findById(id).map(Fruit.class::cast).chain(this::complete);
+    }
+
+    private Uni<Fruit> complete(Fruit fruit) {
+        return Uni.join().all(
+                this.service.complete(fruit),
+                this.service.complete(fruit))
+                .andFailFast().map(fruits -> fruits.get(0));
     }
 
     @POST
@@ -45,5 +53,15 @@ public class FruitResource {
                 .onFailure()
                 .transform(t -> new IllegalStateException(t));
 
+    }
+
+    @POST
+    @Path("/bulk")
+    public Uni<Void> bulkCreate() {
+        final int nb = 1_000;
+        final List<Fruit> fruits = IntStream.range(0, nb)
+                .mapToObj(i -> new Fruit("Bulk " + (i + 1)))
+                .toList();
+        return this.service.bulkCreate(fruits);
     }
 }

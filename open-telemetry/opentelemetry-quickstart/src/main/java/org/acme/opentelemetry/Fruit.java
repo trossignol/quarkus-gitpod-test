@@ -8,6 +8,7 @@ import io.quarkus.hibernate.reactive.panache.PanacheEntity;
 public class Fruit extends PanacheEntity {
 
     public String name;
+    public transient String label;
 
     public Fruit() {
     }
