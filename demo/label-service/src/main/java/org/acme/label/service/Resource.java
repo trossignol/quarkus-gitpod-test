@@ -5,7 +5,7 @@ import java.time.Duration;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 import io.smallrye.mutiny.Uni;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class Resource {
     @SneakyThrows
     public Uni<Result> get(String key) {
         return Uni.createFrom().item(new Result(key, "label-for-key-" + key))
-                .onItem().delayIt().by(Duration.ofMillis(200));
+                .onItem().delayIt().by(Duration.ofMillis(100 + RandomUtils.nextInt(0, 100)));
     }
 
     @Getter

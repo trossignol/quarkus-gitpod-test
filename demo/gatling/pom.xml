@@ -10,7 +10,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <gatling.version>3.7.6</gatling.version>
-        <gatling-maven-plugin.version>4.1.6</gatling-maven-plugin.version>
+        <gatling-maven-plugin.version>4.2.7</gatling-maven-plugin.version>
     </properties>
     <dependencies>
         <dependency>
