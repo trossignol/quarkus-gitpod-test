@@ -3,16 +3,26 @@ receivers:
     protocols:
       grpc:
         endpoint: otel-collector:4317
-  otlp/2:
-    protocols:
-      grpc:
-        endpoint: otel-collector:55680
+  postgresql:
+    endpoint: database:5432
+    transport: tcp
+    username: quarkus_user
+    password: quarkus_pwd
+    databases:
+      - quarkus_db
+    collection_interval: 10s
+    tls:
+      insecure: true
 
 exporters:
   jaeger:
     endpoint: jaeger-all-in-one:14250
     tls:
       insecure: true
+  logging:
+    loglevel: debug
+    sampling_initial: 5
+    sampling_thereafter: 200
 
 processors:
   batch:
@@ -23,7 +33,11 @@ extensions:
 service:
   extensions: [health_check]
   pipelines:
+    metrics:
+      receivers: [postgresql]
+      processors: [batch]
+      exporters: [logging]
     traces:
-      receivers: [otlp,otlp/2]
+      receivers: [otlp]
       processors: [batch]
       exporters: [jaeger]
