@@ -1,7 +1,9 @@
 package org.acme.label.aggregator;
 
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -16,6 +18,8 @@ import lombok.Getter;
 @Path("/api")
 public class Resource {
 
+    private static final int NB_CALL = 20;
+
     @RestClient
     LabelClient labelClient;
 
@@ -23,8 +27,7 @@ public class Resource {
     @Path("/{key}/sync")
     @Blocking
     public Result getSync(String key) {
-        return new Result(key, List.of(this.labelClient.getSync(key), this.labelClient.getSync(key),
-                this.labelClient.getSync(key)));
+        return new Result(key, buildList(NB_CALL, () -> this.labelClient.getSync(key)));
     }
 
     @GET
@@ -32,8 +35,12 @@ public class Resource {
     @Blocking
     public Uni<Result> getAsync(String key) {
         return Uni.join()
-                .all(this.labelClient.getAsync(key), this.labelClient.getAsync(key), this.labelClient.getAsync(key))
+                .all(buildList(NB_CALL, () -> this.labelClient.getAsync(key)))
                 .andCollectFailures().map(labels -> new Result(key, labels));
+    }
+
+    private <T> List<T> buildList(int nb, Supplier<T> function) {
+        return IntStream.range(0, nb).mapToObj(i -> function.get()).collect(Collectors.toList());
     }
 
     @Getter

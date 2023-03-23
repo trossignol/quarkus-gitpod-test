@@ -1,0 +1,17 @@
+== REST
+Step 1 : créer un endpoint REST => montrer la dev console
+ - "quarkus rest json" https://quarkus.io/guides/rest-json
+Step 1 : ajouter swagger => montrer via la dev console
+ - "quarkus swagger" https://quarkus.io/guides/openapi-swaggerui
+
+== Database
+Ajouter une database
+ - "quarkus panache"
+ - @Transactional
+ - dev services => pas de config database => dev console
+
+== Reactive
+ - demo/label-service make build puis make run
+ - demo/label-aggregator quarkus:dev
+
+== Build
