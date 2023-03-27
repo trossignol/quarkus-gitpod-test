@@ -1,8 +1,16 @@
 == REST
 Step 1 : créer un endpoint REST => montrer la dev console
  - "quarkus rest json" https://quarkus.io/guides/rest-json
-Step 1 : ajouter swagger => montrer via la dev console
+Step 2 : ajouter swagger => montrer via la dev console
  - "quarkus swagger" https://quarkus.io/guides/openapi-swaggerui
+Step 3 : build
+
+== Reactive
+ - add service call
+ - demo/label-service make build puis make run
+ - demo/label-aggregator quarkus:dev
+
+== Build native
 
 == Database
 Ajouter une database
@@ -10,8 +18,12 @@ Ajouter une database
  - @Transactional
  - dev services => pas de config database => dev console
 
-== Reactive
- - demo/label-service make build puis make run
- - demo/label-aggregator quarkus:dev
 
-== Build
+
+
+mvn io.quarkus.platform:quarkus-maven-plugin:2.16.5.Final:create \
+    -DprojectGroupId=org.acme \
+    -DprojectArtifactId=rest-json-nantes \
+    -Dextensions='resteasy-reactive-jackson' \
+    -DnoCode
+cd rest-json-nantes

@@ -1,6 +1,7 @@
 package org.acme.rest.json;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
@@ -9,6 +10,8 @@ public class Fruit extends PanacheEntity {
 
     public String name;
     public String description;
+    @Transient
+    public String label;
 
     public Fruit() {
     }

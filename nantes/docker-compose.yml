@@ -1,0 +1,13 @@
+version: '3'
+services:
+  # mvn clean package && docker build -f src/main/docker/Dockerfile.jvm -t demo-nantes .
+  service:
+    image: demo-nantes-native
+    ports:
+      - 8080:8080
+    deploy:
+      resources:
+        reservations:
+          memory: 16M
+        limits:
+          memory: 16M
